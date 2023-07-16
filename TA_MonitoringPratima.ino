@@ -30,8 +30,9 @@ long duration;
 
 //eeprom
 int setDistance; //read from eeprom 1
-//detectFlame = adress 3
-//detectMotion = adress 2
+int addresDistance = 1;
+int addressFlame = 3;
+int addressMotion = 2;
 
 
 //alarm
@@ -212,7 +213,7 @@ void handleNewMessages(int numNewMessages) {
       bot.sendMessage(chat_id, dataJarak, "");
       Serial.println("Read data Jarak");
     }else if (text == "/setjarak"){
-      EEPROM.write(1, distance);
+      EEPROM.write(addresDistance, distance);
       EEPROM.commit();
       detectDistance = true;
       setDistance = distance;
@@ -220,29 +221,29 @@ void handleNewMessages(int numNewMessages) {
       bot.sendMessage(chat_id, setjarak, "");
       Serial.println("Set data Jarak");
     }else if(text == "/resetjarak"){
-      EEPROM.write(1, 0);
+      EEPROM.write(addresDistance, 0);
       EEPROM.commit();
       detectDistance = false;
       setDistance = 0;
       bot.sendMessage(chat_id, "Seting Jarak pengukuran pratima dihapus menjadi 0", "");
       Serial.println("Reset Jarak");
     }else if(text == "/read"){
-      int distanceEEprom = EEPROM.read(1);
-      bool read2 = EEPROM.read(2);
-      bool read3 = EEPROM.read(3);
+      int distanceEEprom = EEPROM.read(addresDistance);
+      bool read2 = EEPROM.read(addressMotion);
+      bool read3 = EEPROM.read(addressFlame);
       String kata = "Jarak eeprom = " + String(distanceEEprom) + "CM, Jarak Setting Sekarang: " + String(setDistance) +"CM, \nStatus pergerakan = " + String(read2) + "Status Kebakaran = " + String(read3);
       bot.sendMessage(chat_id, kata, "");
       Serial.println("Read EEPROM");
     }else if(text == "/off_deteksi_pergerakan"){
       detectMotion = false;
-      EEPROM.write(2, false);
+      EEPROM.write(addressMotion, false);
       EEPROM.commit();
       isMotion = false;
       bot.sendMessage(chat_id, "Deteksi Pergerakan Dimatikan", "");
       Serial.println("Off deteksi pergerakan");
     }else if(text == "/off_deteksi_kebakaran"){
       detectFlame = false;
-      EEPROM.write(3, false);
+      EEPROM.write(addressFlame, false);
       EEPROM.commit();
       isTemp = false;
       isFlame = false;
@@ -250,14 +251,14 @@ void handleNewMessages(int numNewMessages) {
       Serial.println("Off deteksi kebakaran");
     }else if(text == "/on_deteksi_pergerakan"){
       detectMotion = true;
-      EEPROM.write(2, true);
+      EEPROM.write(addressMotion, true);
       EEPROM.commit();
       isMotion = false;
       bot.sendMessage(chat_id, "Deteksi Pergerakan Dihidupkan", "");
       Serial.println("On deteksi pergerakan");
     }else if(text == "/on_deteksi_kebakaran"){
       detectFlame = true;
-      EEPROM.write(3, true);
+      EEPROM.write(addressFlame, true);
       EEPROM.commit();
       isFlame = false;
       isTemp = false;
@@ -389,14 +390,14 @@ void setup(){
   Serial.println(WiFi.localIP()); 
   
   //read EEPROM
-  setDistance = EEPROM.read(1);
+  setDistance = EEPROM.read(addresDistance);
   Serial.print("Jarak = ");
-  Serial.println(EEPROM.read(1));
+  Serial.println(EEPROM.read(addresDistance));
   if(setDistance!= 0){
     detectDistance = true;
   }
-  detectMotion = EEPROM.read(2);
-  detectFlame = EEPROM.read(3);
+  detectMotion = EEPROM.read(addressMotion);
+  detectFlame = EEPROM.read(addressFlame);
 }
 
 void loop() {
