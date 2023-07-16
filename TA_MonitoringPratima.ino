@@ -39,15 +39,13 @@ bool detectDistance = false, detectFlame = true, detectMotion = true;
 
 
 //WIFI
-//const char* ssid = "KADUK";
-//const char* password = "dedeksastra";
 
-const char* ssid = "LAPTOP-8SHIERJH 8352";
-const char* password = "aris1234";
+const char* ssid = "YOUR SSID";
+const char* password = "YOUR WIFI Password";
 
 //Telegram BOT
-String BOTtoken = "5586260416:AAHHv7EZ-ghipGkNfjaGqu4Yyz6OB-k0aLA";  // your Bot Token (Get from Botfather)
-String CHAT_ID = "886510423";
+String BOTtoken = "YOUR:BOT TOKEN";  // your Bot Token (Get from Botfather)
+String CHAT_ID = "YOUR CHATID";     // your Chat id (Get from Idbot)
 bool sendPhoto = false;
 WiFiClientSecure clientTCP;
 UniversalTelegramBot bot(BOTtoken, clientTCP);
